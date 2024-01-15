@@ -49,11 +49,11 @@ export default async function Home(
   const location = await fetch("https://vercel-geo-delta.vercel.app/api/geo")
     .then(res => res.json())
 
-  const latencies = new Array<number>(10);
-  const names = new Array<string>(10);
+  const latencies = new Array<number>(20);
+  const names = new Array<string>(20);
   latencies[0] = firstQueryLatency;
   names[0] = firstNameRecord;
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 19; i++) {
     const start = Date.now();
     const res = await connection.execute(QUERY);
     latencies[i + 1] = Date.now() - start;
