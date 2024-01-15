@@ -63,6 +63,7 @@ export default async function Home(
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <div className="flex gap-2">
+        <h1 className="text-4xl font-bold">Tesing {region}</h1>
         <a href="/?region=us-east-1" className="text-blue-500 underline">
           us-east-1
         </a>
@@ -71,6 +72,12 @@ export default async function Home(
         </a>
       </div>
       <Results results={{ latencies, names, location }} />
+      <div>
+        <p>
+          Worker region
+        </p>
+        <div>{JSON.stringify(location, null, 2)} </div>
+      </div>
     </main>
   )
 }
