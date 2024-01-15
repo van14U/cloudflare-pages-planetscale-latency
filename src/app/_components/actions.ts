@@ -27,6 +27,7 @@ const QUERY = "SELECT * FROM `t3-app_post` ORDER BY id DESC LIMIT 1";
 export type BenchResult = {
   latencies: number[];
   location: any;
+  names: string[];
 } | undefined;
 
 export async function bench(prev: BenchResult, data: FormData): Promise<BenchResult> {
@@ -36,23 +37,23 @@ export async function bench(prev: BenchResult, data: FormData): Promise<BenchRes
   }
   const connection = region === "us-east-1" ? us_east_1_connection : sa_east_1_connection;
   const start = Date.now();
-  await connection.execute(QUERY);
+  const first = await connection.execute(QUERY);
   const firstQueryLatency = Date.now() - start;
+  const firstNameRecord = (first.rows.at(0)!.name as string);
 
   const location = await fetch("https://vercel-geo-delta.vercel.app/api/geo")
     .then(res => res.json())
 
-  console.log(location);
-
   const latencies = new Array<number>(10);
+  const names = new Array<string>(10);
   latencies[0] = firstQueryLatency;
+  names[0] = firstNameRecord;
   for (let i = 0; i < 9; i++) {
     const start = Date.now();
-    await connection.execute(QUERY);
+    const res  = await connection.execute(QUERY);
     latencies[i + 1] = Date.now() - start;
-    // await new Promise((resolve) => setTimeout(resolve, 100));
+    names[i + 1] = (res.rows.at(0)!.name as string);
+    // await new Promise((resolve) => setTimeout(resolve, 500));
   }
-  console.log(latencies);
-
-  return { latencies, location };
+  return { latencies, location, names };
 }

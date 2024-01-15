@@ -1,7 +1,7 @@
 "use client"
 
 import { useFormState, useFormStatus } from "react-dom"
-import { bench } from "./actions"
+import { BenchResult, bench } from "./actions"
 import { type ButtonHTMLAttributes } from "react"
 
 function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
@@ -16,13 +16,13 @@ function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   )
 }
 
-function Results(props: { results?: { latencies: number[] } }) {
+function Results(props: { results: BenchResult }) {
 
   if (!props.results?.latencies) {
     return null
   }
 
-  const rawResult = structuredClone(props.results.latencies);
+  const rawResult = structuredClone(props.results);
   const copy = structuredClone(props.results.latencies);
   const median = copy.sort()[Math.floor(copy.length / 2)]
   const avg = copy.reduce((a, b) => a + b, 0) / copy.length
@@ -31,8 +31,8 @@ function Results(props: { results?: { latencies: number[] } }) {
 
   return (
     <div className="grid gap-2">
-      {rawResult.map(lat => (
-        <div key={Math.random()}>{lat}ms</div>
+      {rawResult.latencies.map((lat, idx) => (
+        <div key={Math.random()}>{lat}ms - {rawResult.names.at(idx)}</div>
       ))}
       <div>Median: {median}ms</div>
       <div>Average: {avg}ms</div>
