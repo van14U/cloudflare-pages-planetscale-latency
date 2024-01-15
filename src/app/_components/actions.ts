@@ -26,6 +26,7 @@ const QUERY = "SELECT * FROM `t3-app_post` ORDER BY id DESC LIMIT 1";
 
 export type BenchResult = {
   latencies: number[];
+  location: any;
 } | undefined;
 
 export async function bench(prev: BenchResult, data: FormData): Promise<BenchResult> {
@@ -38,6 +39,11 @@ export async function bench(prev: BenchResult, data: FormData): Promise<BenchRes
   await connection.execute(QUERY);
   const firstQueryLatency = Date.now() - start;
 
+  const locaion = await fetch("https://vercel-geo-delta.vercel.app/api/geo")
+    .then(res => res.json())
+
+  console.log(locaion);
+
   const latencies = new Array<number>(10);
   latencies[0] = firstQueryLatency;
   for (let i = 0; i < 9; i++) {
@@ -48,5 +54,5 @@ export async function bench(prev: BenchResult, data: FormData): Promise<BenchRes
   }
   console.log(latencies);
 
-  return { latencies };
+  return { latencies, location };
 }

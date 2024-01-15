@@ -47,6 +47,10 @@ export function Bench() {
 
   return (
     <div>
+      {state?.location && <div>
+        <p>Worker Location:</p>
+        <div>{JSON.stringify(state.location, null, 2)} </div>
+      </div>}
       <form action={formAction} className="grid gap-2" >
         <select name="region" className="dark:bg-black rounded-md border px-3 py-1">
           <option value="us-east-1">us-east-1</option>
