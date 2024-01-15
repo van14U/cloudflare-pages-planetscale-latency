@@ -26,7 +26,7 @@ const sa_east_1_connection = new Client({
   },
 }).connection();
 
-
+export const revalidate = 0;
 
 export default async function Home(
   props: {
