@@ -16,7 +16,7 @@ function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   )
 }
 
-function Results(props: { results: BenchResult }) {
+export function Results(props: { results: Required<BenchResult> }) {
 
   if (!props.results?.latencies) {
     return null

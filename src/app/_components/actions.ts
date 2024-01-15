@@ -4,22 +4,22 @@ import { Client } from "@planetscale/database";
 
 const us_east_1_connection = new Client({
   url: process.env.DATABASE_URL_US_EAST_1 as string,
-  fetch: (url, init) => {
-    if (init) {
-      delete init.cache;
-    }
-    return fetch(url, init);
-  },
+  // fetch: (url, init) => {
+  //   if (init) {
+  //     delete init.cache;
+  //   }
+  //   return fetch(url, init);
+  // },
 }).connection();
 
 const sa_east_1_connection = new Client({
   url: process.env.DATABASE_URL_SA_EAST_1 as string,
-  fetch: (url, init) => {
-    if (init) {
-      delete init.cache;
-    }
-    return fetch(url, init);
-  },
+  // fetch: (url, init) => {
+  //   if (init) {
+  //     delete init.cache;
+  //   }
+  //   return fetch(url, init);
+  // },
 }).connection();
 
 const QUERY = "SELECT * FROM `t3-app_post` ORDER BY id DESC LIMIT 1";
@@ -53,7 +53,6 @@ export async function bench(prev: BenchResult, data: FormData): Promise<BenchRes
     const res  = await connection.execute(QUERY);
     latencies[i + 1] = Date.now() - start;
     names[i + 1] = (res.rows.at(0)!.name as string);
-    // await new Promise((resolve) => setTimeout(resolve, 500));
   }
   return { latencies, location, names };
 }
