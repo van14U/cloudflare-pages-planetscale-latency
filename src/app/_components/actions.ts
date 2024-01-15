@@ -39,10 +39,10 @@ export async function bench(prev: BenchResult, data: FormData): Promise<BenchRes
   await connection.execute(QUERY);
   const firstQueryLatency = Date.now() - start;
 
-  const locaion = await fetch("https://vercel-geo-delta.vercel.app/api/geo")
+  const location = await fetch("https://vercel-geo-delta.vercel.app/api/geo")
     .then(res => res.json())
 
-  console.log(locaion);
+  console.log(location);
 
   const latencies = new Array<number>(10);
   latencies[0] = firstQueryLatency;
